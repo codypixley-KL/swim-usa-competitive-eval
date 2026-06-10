@@ -1,0 +1,1244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Swim USA — Klaviyo Competitive Evaluation</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --orange:       #FF5A00;
+  --orange-light: #FFF3EE;
+  --orange-mid:   #FFD4BC;
+  --navy:         #0F1E2D;
+  --navy-soft:    #1E3448;
+  --text:         #1C2B3A;
+  --text-mid:     #3D4A58;
+  --text-soft:    #6B7A8D;
+  --border:       #E2E6EA;
+  --border-soft:  #EEF0F3;
+  --bg:           #F8F9FB;
+  --bg-white:     #FFFFFF;
+  --klav-border:  #FF5A00;
+  --comp-border:  #9AA3AE;
+  --why-bg:       #F0F4FF;
+  --why-border:   #C5CFF5;
+  --why-text:     #1E3A8A;
+  --q-border:     #D5CBEE;
+  --q-bg:         #FDFCFF;
+  --q-purple:     #4C2FAD;
+  --radius:       10px;
+  --shadow:       0 1px 3px rgba(0,0,0,.06), 0 4px 16px rgba(0,0,0,.05);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text);
+  background: var(--bg);
+}
+
+/* ─── TOP HEADER ─────────────────────────────── */
+.top-bar {
+  background: var(--navy);
+  padding: 16px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  box-shadow: 0 2px 12px rgba(0,0,0,.3);
+}
+.wordmark {
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--orange);
+  letter-spacing: -.3px;
+}
+.top-meta {
+  font-size: 11px;
+  color: rgba(255,255,255,.4);
+  text-align: right;
+  line-height: 1.5;
+}
+
+/* ─── SECTION TABS ───────────────────────────── */
+.section-tabs {
+  background: var(--navy-soft);
+  display: flex;
+  position: sticky;
+  top: 49px;
+  z-index: 190;
+}
+.sec-tab {
+  flex: 1;
+  padding: 16px 24px;
+  border: none;
+  background: transparent;
+  color: rgba(255,255,255,.45);
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all .2s;
+  text-align: center;
+  border-bottom: 3px solid transparent;
+  letter-spacing: -.1px;
+}
+.sec-tab:hover { color: rgba(255,255,255,.8); }
+.sec-tab.active {
+  color: #fff;
+  border-bottom-color: var(--orange);
+  background: rgba(255,255,255,.05);
+}
+
+/* ─── CATEGORY NAV PILLS ─────────────────────── */
+.cat-nav {
+  background: var(--bg-white);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 40px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  position: sticky;
+  top: 105px;
+  z-index: 180;
+}
+.cat-pill {
+  padding: 5px 13px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-soft);
+  background: transparent;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: all .15s;
+  white-space: nowrap;
+}
+.cat-pill:hover {
+  background: var(--orange-light);
+  border-color: var(--orange-mid);
+  color: var(--orange);
+}
+.cat-pill.active {
+  background: var(--orange);
+  border-color: var(--orange);
+  color: #fff;
+  font-weight: 600;
+}
+
+/* ─── MAIN CONTENT ───────────────────────────── */
+.content-wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 40px 80px;
+}
+
+.section-panel { display: none; }
+.section-panel.active { display: block; }
+
+/* ─── SECTION INTRO ──────────────────────────── */
+.section-intro {
+  padding: 32px 0 8px;
+}
+.section-intro h1 {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -.4px;
+  margin-bottom: 10px;
+}
+.section-intro h1 span { color: var(--orange); }
+.section-intro p {
+  font-size: 13.5px;
+  line-height: 1.7;
+  color: var(--text-mid);
+  max-width: 800px;
+}
+
+/* ─── CATEGORY GROUP LABEL ───────────────────── */
+.group-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--text-soft);
+  margin: 40px 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* ─── FEATURE BLOCK ──────────────────────────── */
+.feature-block {
+  margin-bottom: 28px;
+  scroll-margin-top: 170px;
+}
+.feature-label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+  color: var(--text-soft);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.feature-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border-soft);
+}
+
+/* ─── COMPARISON CARDS ───────────────────────── */
+.compare-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+.comp-card {
+  background: var(--bg-white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+.comp-card-header {
+  padding: 10px 18px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border-bottom: 3px solid;
+}
+.comp-card.klav .comp-card-header {
+  background: var(--orange-light);
+  color: var(--orange);
+  border-color: var(--orange);
+}
+.comp-card.comp .comp-card-header {
+  background: #F5F5F7;
+  color: var(--text-soft);
+  border-color: var(--comp-border);
+}
+.comp-card-body {
+  padding: 16px 18px;
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--text-mid);
+}
+.comp-card-body strong { color: var(--text); font-weight: 600; }
+.comp-card-body ul { padding-left: 16px; margin-top: 4px; }
+.comp-card-body ul li { margin-bottom: 3px; }
+
+/* ─── WHY IT MATTERS ─────────────────────────── */
+.why-strip {
+  background: var(--why-bg);
+  border: 1px solid var(--why-border);
+  border-radius: var(--radius);
+  padding: 13px 18px;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+.why-label {
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #2940A8;
+  opacity: .7;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.why-text {
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: var(--why-text);
+}
+
+/* ─── COMPETITIVE QUESTIONS SECTION ─────────── */
+.cq-section {
+  margin-top: 52px;
+  scroll-margin-top: 170px;
+}
+.cq-section-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+.cq-section-header h2 {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -.3px;
+}
+.cq-divider {
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+.cq-section-sub {
+  font-size: 12.5px;
+  color: var(--text-soft);
+  margin-bottom: 24px;
+}
+
+.cq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.cq-item {
+  background: var(--q-bg);
+  border: 1px solid var(--q-border);
+  border-top: none;
+  padding: 22px 28px;
+}
+.cq-item:first-child {
+  border-top: 1px solid var(--q-border);
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+.cq-item:last-child {
+  border-radius: 0 0 var(--radius) var(--radius);
+}
+.cq-item:only-child {
+  border-radius: var(--radius);
+}
+.cq-question {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--q-purple);
+  line-height: 1.55;
+  margin-bottom: 9px;
+}
+.cq-listen {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding-left: 2px;
+}
+.cq-listen-label {
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--q-purple);
+  opacity: .6;
+  flex-shrink: 0;
+}
+.cq-listen-text {
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: var(--text-mid);
+}
+
+/* ─── RESPONSIVE ─────────────────────────────── */
+@media (max-width: 820px) {
+  .content-wrap { padding: 0 20px 60px; }
+  .top-bar, .cat-nav { padding-left: 20px; padding-right: 20px; }
+  .compare-cards { grid-template-columns: 1fr; }
+  .cat-nav { top: 97px; overflow-x: auto; flex-wrap: nowrap; }
+  .cat-nav::-webkit-scrollbar { display: none; }
+  .section-tabs { top: 49px; }
+}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<header class="top-bar">
+  <div class="wordmark">klaviyo</div>
+  <div class="top-meta">
+    Swim USA — New Business 2026<br>
+    Scope: Email · SMS · Reporting · Analytics · AI · eCommerce: Shopify
+  </div>
+</header>
+
+<!-- SECTION TABS -->
+<div class="section-tabs">
+  <button class="sec-tab active" onclick="switchSection('braze', this)">Klaviyo vs. Braze</button>
+  <button class="sec-tab" onclick="switchSection('bloomreach', this)">Klaviyo vs. Bloomreach</button>
+</div>
+
+<!-- CATEGORY NAV — BRAZE -->
+<nav class="cat-nav" id="catnav-braze" style="display:flex">
+  <button class="cat-pill active" onclick="jumpTo('b-shopify')">Shopify</button>
+  <button class="cat-pill" onclick="jumpTo('b-sms')">SMS</button>
+  <button class="cat-pill" onclick="jumpTo('b-retention')">Data Retention</button>
+  <button class="cat-pill" onclick="jumpTo('b-model')">Data Model</button>
+  <button class="cat-pill" onclick="jumpTo('b-identity')">Identity</button>
+  <button class="cat-pill" onclick="jumpTo('b-reporting')">Reporting</button>
+  <button class="cat-pill" onclick="jumpTo('b-ai')">AI Features</button>
+  <button class="cat-pill" onclick="jumpTo('b-ease')">Marketer Autonomy</button>
+  <button class="cat-pill" onclick="jumpTo('b-pricing')">Pricing</button>
+  <button class="cat-pill" onclick="jumpTo('b-composer')">Composer</button>
+  <button class="cat-pill" onclick="jumpTo('b-remix')">Image Remix</button>
+  <button class="cat-pill" onclick="jumpTo('b-yotpo')">Yotpo</button>
+  <button class="cat-pill" onclick="jumpTo('b-cq')">Competitive Questions</button>
+</nav>
+
+<!-- CATEGORY NAV — BLOOMREACH -->
+<nav class="cat-nav" id="catnav-bloom" style="display:none">
+  <button class="cat-pill active" onclick="jumpTo('bl-email')">Core Email + SMS</button>
+  <button class="cat-pill" onclick="jumpTo('bl-shopify')">Shopify</button>
+  <button class="cat-pill" onclick="jumpTo('bl-delivery')">Deliverability</button>
+  <button class="cat-pill" onclick="jumpTo('bl-autonomy')">Marketer Autonomy</button>
+  <button class="cat-pill" onclick="jumpTo('bl-retention')">Data Retention</button>
+  <button class="cat-pill" onclick="jumpTo('bl-impl')">Implementation</button>
+  <button class="cat-pill" onclick="jumpTo('bl-reporting')">Reporting</button>
+  <button class="cat-pill" onclick="jumpTo('bl-ai')">AI Features</button>
+  <button class="cat-pill" onclick="jumpTo('bl-tco')">Total Cost</button>
+  <button class="cat-pill" onclick="jumpTo('bl-composer')">Composer</button>
+  <button class="cat-pill" onclick="jumpTo('bl-remix')">Image Remix</button>
+  <button class="cat-pill" onclick="jumpTo('bl-sendtime')">Send Time</button>
+  <button class="cat-pill" onclick="jumpTo('bl-yotpo')">Yotpo</button>
+  <button class="cat-pill" onclick="jumpTo('bl-cq')">Competitive Questions</button>
+</nav>
+
+<!-- ═══════════ CONTENT ═══════════ -->
+<div class="content-wrap">
+
+  <!-- ══════════════════════════════════
+       SECTION: vs BRAZE
+  ══════════════════════════════════ -->
+  <div class="section-panel active" id="panel-braze">
+
+    <div class="section-intro">
+      <h1><span>Klaviyo</span> vs. Braze</h1>
+      <p>Braze excels for app-first, non-commerce brands where mobile push and in-app messaging are the primary levers. For ecommerce brands whose growth engine is email and SMS on Shopify, Braze's event-driven architecture and MAU-based pricing mean more data mapping, more engineering ownership, and less cost predictability. Klaviyo is a B2C ecommerce CRM built for Shopify-first brands — unifying data, analytics, and activation so marketers can own personalization at scale without a heavy CDP or dev layer. Note: Braze acquired OfferFit in March 2025 (now Braze AI Decision Studio).</p>
+    </div>
+
+    <div class="group-label">Platform &amp; Integration</div>
+
+    <!-- Shopify -->
+    <div class="feature-block" id="b-shopify">
+      <div class="feature-label">Shopify Integration</div>
+      <div class="compare-cards">
+        <div class="comp-card klav">
+          <div class="comp-card-header">Klaviyo</div>
+          <div class="comp-card-body">
+            <strong>Strategic Shopify partner</strong> with deep native integration. Bi-directional, near real-time sync of orders, customers, products, catalog, and metafields. Server-side tracking plus app embed for onsite tracking. Supports Shopify Markets, localization, Shopify Plus, and headless/Hydrogen with minimal dev lift. Native Loop Returns integration included.
+          </div>
+        </div>
+        <div class="comp-card comp">
+          <div class="comp-card-header">Braze</div>
+          <div class="comp-card-body">
+            Relies more heavily on SDKs and pixel-style tracking, requiring additional engineering vs. Klaviyo's out-of-the-box app. Historical data backfill requires custom configuration or additional tooling. Does not natively write enriched profile data back to Shopify customer profiles.
+          </div>
+        </div>
+      </div>
+      <div class="why-strip">
+        <span class="why-label">Why It Matters</span>
+        <span class="why-text">Swim USA operates 5 D2C Shopify brands. Deep native integration delivers richer profiles and accurate LTV and RFM modeling from day one — without custom development.</span>
+      </div>
+    </div>
+
+    <!-- SMS -->
+    <div class="feature-block" id="b-sms">
+      <div class="feature-label">SMS Capabilities</div>
+      <div class="compare-cards">
+        <div class="comp-card klav">
+          <div class="comp-card-header">Klaviyo</div>
+          <div class="comp-card-body">
+            <strong>Native Shopify checkout extension</strong> for SMS consent capture — checkout, thank-you, and order-status pages, including Shop Pay for Plus merchants. Unified email and SMS flows. Transparent per-message pricing.
+          </div>
+        </div>
+        <div class="comp-card comp">
+          <div class="comp-card-header">Braze</div>
+          <div class="comp-card-body">
+            No native Shopify checkout extension for SMS consent. Relies on generic Shopify UI and consent mechanisms, which limits the speed and scale of SMS list growth for Shopify merchants. Braze's architecture originated in mobile app engagement — email and SMS were added later.
+          </div>
+        </div>
+      </div>
+      <div class="why-strip">
+        <span class="why-label">Why It Matters</span>
+        <span class="why-text">SMS is one of Swim USA's highest-engagement channels. Native checkout consent capture directly accelerates subscriber list growth and ensures compliance from the point of purchase.</span>
+      </div>
+    </div>
+
+    <div class="group-label">Data &amp; Architecture</div>
+
+    <!-- Data Retention -->
+    <div class="feature-block" id="b-retention">
+      <div class="feature-label">Data Retention &amp; Event History</div>
+      <div class="compare-cards">
+        <div class="comp-card klav">
+          <div class="comp-card-header">Klaviyo</div>
+          <div class="comp-card-body">
+            <strong>Full historical event data at no additional cost.</strong> No 30- or 90-day limits. All data available for segmentation, reporting, and AI from day one through the lifetime of the account.
+          </div>
+        </div>
+        <div class="comp-card comp">
+          <div class="comp-card-header">Braze</div>
+          <div class="comp-card-body">
+            Detailed event retention limited to <strong>approximately 30 days by default.</strong> Extended access requires higher-tier packages or add-ons. Older behavioral data becomes expensive or unavailable for targeting and AI.
+          </div>
+        </div>
+      </div>
+      <div class="why-strip">
+        <span class="why-label">Why It Matters</span>
+        <span class="why-text">For seasonal swimwear brands, multi-year purchase history is critical for lifecycle marketing, LTV prediction, churn scoring, and reactivation. Paying extra to access your own historical data is a scalability issue.</span>
+      </div>
+    </div>
+
+    <!-- Data Model -->
+    <div class="feature-block" id="b-model">
+      <div class="feature-label">Data Model &amp; Architecture</div>
+      <div class="compare-cards">
+        <div class="comp-card klav">
+          <div class="comp-card-header">Klaviyo</div>
+          <div class="comp-card-body">
+            Ecommerce concepts — <strong>orders, products, collections, LTV, RFM — natively modeled</strong> in Klaviyo's data schema. Accepts arbitrary JSON. No pre-definition required. OLAP and OLTP composite store enables true 360° customer history.
+          </div>
+        </div>
+        <div class="comp-card comp">
+          <div class="comp-card-header">Braze</div>
+          <div class="comp-card-body">
+            Rigid custom event architecture — brands must <strong>define, configure, and whitelist</strong> every event and attribute in advance. Ecommerce events must match one of six canonical schemas exactly. Does not accept arbitrary JSON.
+          </div>
+        </div>
+      </div>
+      <div class="why-strip">
+        <span class="why-label">Why It Matters</span>
+        <span class="why-text">Klaviyo's native ecommerce schema means Swim USA's Shopify order and behavioral data is immediately usable for segmentation and personalization — no data mapping project, no upfront engineering sprint.</span>
+      </div>
+    </div>
+
+    <!-- Identity -->
+    <div class="feature-block" id="b-identity">
+      <div class="feature-label">Identity Resolution</div>
+      <div class="compare-cards">
+        <div class="comp-card klav">
+          <div class="comp-card-header">Klaviyo</div>
+          <div class="comp-card-body">
+            <strong>Native cross-channel profile unification</strong> across email, SMS, web, and mobile. Extended ID capabilities for profile merging across multiple brand touchpoints. Immediately available for segmentation and activation.
+          </div>
+        </div>
+        <div class="comp-card comp">
+          <div class="comp-card-header">Braze</div>
+          <div class="comp-card-body">
+            Powerful but requires <strong>careful custom implementation</strong> to avoid duplicate or fragmented profiles across channels and devices. Many Braze customers pair it with a separate CDP (e.g., Segment) to manage identity — adding stack complexity and cost.
+          </div>
+        </div>
+      </div>
+      <div class="why-strip">
+        <span class="why-label">Why It Matters</span>
+        <span class="why-text">Identity resolution was a top priority for Swim USA's technical lead. Native handling eliminates dependency on an additional CDP layer and simplifies the data architecture.</span>
+      </div>
+    </div>
+
+    <div class="group-label">Reporting, AI &amp; Usability</div>
+
+    <!-- Reporting -->
+    <div class="feature-block" id="b-reporting">
+      <div class="feature-label">Reporting &amp; Analytics</div>
+      <div class="compare-cards">
+        <div class="comp-card klav">
+          <div class="comp-card-header">Klaviyo</div>
+          <div class="comp-card-body">
+            <strong>Pre-built ecommerce dashboards</strong> with attributed revenue at the campaign and flow level. RFM analysis, predictive CLV, subscriber growth reports, and peer-group benchmarking. Customizable dashboards. Natural-language querying directly in the UI.
+          </div>
+        </div>
+        <div class="comp-card comp">
+          <div class="comp-card-header">Braze</div>
+          <div class="comp-card-body">
+            Strong engagement analytics but <strong>not pre-built around ecommerce KPIs.</strong> Commerce-specific reporting requires additional configuration or custom work. No native peer-group ecommerce benchmarking out of the box.
+          </div>
+        </div>
+      </div>
+      <div class="why-strip">
+        <span class="why-label">Why It Matters</span>
+        <span class="why-text">Michael (primary platform operator) wants to simplify pulling reports, scheduling, and audience building. Pre-built ecommerce analytics directly reduce that operational overhead and time to insight.</span>
+      </div>
+    </div>
+
+    <!-- AI -->
+    <div class="feature-block" id="b-ai">
+      <div class="feature-label">AI &amp; Predictive Features</div>
+      <div class="compare-cards">
+        <div class="comp-card klav">
+          <div class="comp-card-header">Klaviyo</div>
+          <div class="comp-card-body">
+            Predictive CLV, churn risk, next order date, channel affinity, audience optimization, and RFM — all out of the box. <strong>Segments AI</strong> for natural-language segment creation. Email AI and SMS AI for content generation. <strong>MCP server</strong> connects AI agents directly to live ecommerce profile, order, and catalog data. Brand and legal guardrails built in.
+          </div>
+        </div>
+        <div class="comp-card comp">
+          <div class="comp-card-header">Braze</div>
+          <div class="comp-card-body">
+            Braze acquired <strong>OfferFit (March 2025)</strong> — now Braze AI Decision Studio — adding reinforcement learning for channel and offer decisioning. However, these capabilities are not ecommerce-native by default and require significant data mapping and engineering setup to operationalize effectively. No equivalent MCP-based AI workflow connecting agents to live ecommerce data.
+          </div>
+        </div>
+      </div>
+      <div class="why-strip">
+        <span class="why-label">Why It Matters</span>
+        <span class="why-text">Zoe and Michael both prioritized AI that reduces campaign building and reporting time. Klaviyo's AI is immediately actionable from onboarding — grounded in live Swim USA data — with no prior engineering sprint required.</span>
+      </div>
+    </div>
+
+    <!-- Ease of Use -->
+    <div class="feature-block" id="b-ease">
+      <div class="feature-label">Ease of Use &amp; Marketer Autonomy</div>
+      <div class="compare-cards">
+        <div class="comp-card klav">
+          <div class="comp-card-header">Klaviyo</div>
+          <div class="comp-card-body">
+            Designed for <strong>marketers to build, iterate, and own advanced use cases independently.</strong> 350+ pre-built integrations including native Loop. Pre-built flow templates synced with Shopify data. Minimal developer dependency for day-to-day operations.
+          </div>
+        </div>
+        <div class="comp-card comp">
+          <div class="comp-card-header">Braze</div>
+          <div class="comp-card-body">
+            Brands must <strong>define and configure events and attributes before marketers can use them.</strong> Engineering resources involved for integration setup, schema changes, and data pipeline maintenance — slowing marketing teams consistently.
+          </div>
+        </div>
+      </div>
+      <div class="why-strip">
+        <span class="why-label">Why It Matters</span>
+        <span class="why-text">High operational control inside the platform is a stated requirement. A platform that requires developer resources for routine tasks creates a bottleneck that directly conflicts with Swim USA's goals.</span>
+      </div>
+    </div>
+
+    <!-- Pricing -->
+    <div class="feature-block" id="b-pricing">
+      <div class="feature-label">Pricing Structure</div>
+      <div class="compare-cards">
+        <div class="comp-card klav">
+          <div class="comp-card-header">Klaviyo</div>
+          <div class="comp-card-body">
+            <strong>Transparent, contact and send-volume pricing</strong> starting at $0/month. No hidden charges for data retention, event ingestion, or segment usage. Predictable costs as the business scales.
+          </div>
+        </div>
+        <div class="comp-card comp">
+          <div class="comp-card-header">Braze</div>
+          <div class="comp-card-body">
+            <strong>Layered, entitlement-based pricing:</strong> fixed platform fee plus MAU charges plus message credits for email and SMS. Critically, <strong>SMS Message Credits do not include carrier fees</strong> — those are billed separately. Add-ons for data exports, SMS infrastructure, and Customer Success plans further compound true total cost of ownership.
+          </div>
+        </div>
+      </div>
+      <div class="why-strip">
+        <span class="why-label">Why It Matters</span>
+        <span class="why-text">Braze's layered structure — where SMS carrier fees, platform fees, MAU overages, and data exports are each billed independently — creates meaningful budget risk as Swim USA's send volumes and data needs grow.</span>
+      </div>
+    </div>
+
+    <div class="group-label">Differentiating Capabilities</div>
+
+    <!-- Composer -->
+    <div class="feature-block" id="b-composer">
+      <div class="feature-label">Klaviyo Composer — AI Campaign Creation</div>
+      <div class="compare-cards">
+        <div class="comp-card klav">
+          <div class="comp-card-header">Klaviyo</div>
+          <div class="comp-card-body">
+            <strong>Composer</strong> is an AI agent that builds complete omnichannel campaigns and automated flow sequences from a single natural language prompt. Outputs include email and SMS copy, subject lines, audience definitions, and multi-step flow logic — all grounded in live customer data. Marketers refine outputs conversationally.
+          </div>
+        </div>
+        <div class="comp-card comp">
+          <div class="comp-card-header">Braze</div>
+          <div class="comp-card-body">
+            BrazeAI generates copy, Liquid syntax, and images via DALL·E 3 to a media library. Canvas Flow supports journey building with AI features. No equivalent single agent that <strong>generates complete campaign packages and multi-step flow logic from one prompt,</strong> natively grounded in an ecommerce data model.
+          </div>
+        </div>
+      </div>
+      <div class="why-strip">
+        <span class="why-label">Why It Matters</span>
+        <span class="why-text">Composer cuts campaign-to-launch time significantly — no technical resource required to define audience, write copy, and build flows separately.</span>
+      </div>
+    </div>
+
+    <!-- Image Remix -->
+    <div class="feature-block" id="b-remix">
+      <div class="feature-label">AI Image Editing — Image Remix</div>
+      <div class="compare-cards">
+        <div class="comp-card klav">
+          <div class="comp-card-header">Klaviyo</div>
+          <div class="comp-card-body">
+            <strong>Image Remix</strong> (powered by Google Gemini) is embedded directly inside the Klaviyo email editor. Edit existing images inline via text prompt — change backgrounds, add seasonal overlays, swap product context — without leaving the builder or switching tools.
+          </div>
+        </div>
+        <div class="comp-card comp">
+          <div class="comp-card-header">Braze</div>
+          <div class="comp-card-body">
+            Braze offers DALL·E 3 image generation to a shared media library. Generates new images but <strong>does not support inline, contextual editing of existing images</strong> within the email builder. Adapting brand assets requires a separate design tool.
+          </div>
+        </div>
+      </div>
+      <div class="why-strip">
+        <span class="why-label">Why It Matters</span>
+        <span class="why-text">Inline AI image editing inside the builder reduces creative turnaround across a 5-brand portfolio — without external tool dependency or designer involvement.</span>
+      </div>
+    </div>
+
+    <!-- Yotpo -->
+    <div class="feature-block" id="b-yotpo">
+      <div class="feature-label">Loyalty Integration — Yotpo</div>
+      <div class="compare-cards">
+        <div class="comp-card klav">
+          <div class="comp-card-header">Klaviyo</div>
+          <div class="comp-card-body">
+            Native Yotpo integration syncs loyalty points, VIP tier, and referral data into customer profiles for segmentation and flow triggers. <strong>Klaviyo Customer Hub</strong> surfaces loyalty balance, tier status, and redemption options within a native branded onsite portal — unifying the loyalty journey beyond the inbox.
+          </div>
+        </div>
+        <div class="comp-card comp">
+          <div class="comp-card-header">Braze</div>
+          <div class="comp-card-body">
+            Native Yotpo integration surfaces reviews, star ratings, and loyalty data within messaging campaigns. Integration is <strong>limited to the messaging layer</strong> — no native onsite loyalty portal experience.
+          </div>
+        </div>
+      </div>
+      <div class="why-strip">
+        <span class="why-label">Why It Matters</span>
+        <span class="why-text">Klaviyo's Customer Hub connects the inbox, the onsite journey, and the loyalty program in one unified experience — without a third-party portal vendor.</span>
+      </div>
+    </div>
+
+    <!-- COMPETITIVE QUESTIONS: BRAZE -->
+    <div class="cq-section" id="b-cq">
+      <div class="cq-section-header">
+        <h2>Competitive Questions for Braze</h2>
+        <div class="cq-divider"></div>
+      </div>
+      <p class="cq-section-sub">Questions designed to surface gaps relevant to Swim USA's stated priorities. Framed neutrally for any vendor evaluation context.</p>
+      <div class="cq-list">
+
+        <div class="cq-item">
+          <div class="cq-question">"How much developer time will we need to integrate, map, and maintain the data Braze needs for segmentation and personalization — including integrations with Shopify, Databricks, Loop, and Yotpo?"</div>
+          <div class="cq-listen">
+            <span class="cq-listen-label">Listen For</span>
+            <span class="cq-listen-text">Vague timelines, references to a required onboarding sprint, or confirmation that a CDP like Segment is needed before Braze can function effectively. This surfaces the true technical overhead of the Braze architecture.</span>
+          </div>
+        </div>
+
+        <div class="cq-item">
+          <div class="cq-question">"If marketing wanted to use a new event or data point in a campaign tomorrow, what would that process look like — and would the marketing team handle it themselves, or would engineering need to get involved?"</div>
+          <div class="cq-listen">
+            <span class="cq-listen-label">Listen For</span>
+            <span class="cq-listen-text">Stories of campaigns delayed due to event schema changes, whitelist requests, or engineering dependencies. This reveals the operational friction that Braze's architecture creates for marketing teams.</span>
+          </div>
+        </div>
+
+        <div class="cq-item">
+          <div class="cq-question">"What are Braze's default data retention windows for detailed events, and what additional fees or upgrades are required if we want to use 6–12 months of behavioral data for segmentation and AI?"</div>
+          <div class="cq-listen">
+            <span class="cq-listen-label">Listen For</span>
+            <span class="cq-listen-text">Any confirmation that data becomes less accessible — or costs more to retain — beyond 30 days. This directly exposes Braze's default retention window and is a direct Klaviyo differentiator.</span>
+          </div>
+        </div>
+
+        <div class="cq-item">
+          <div class="cq-question">"How does Braze handle identity resolution across devices, email addresses, phone numbers, logins, and channels without creating duplicate profiles?"</div>
+          <div class="cq-listen">
+            <span class="cq-listen-label">Listen For</span>
+            <span class="cq-listen-text">Descriptions of manual alias management, CDP dependencies, or complex merge logic. This surfaces the identity resolution gap that Swim USA's technical lead flagged as a top priority.</span>
+          </div>
+        </div>
+
+        <div class="cq-item">
+          <div class="cq-question">"For an ecommerce brand like ours, what in Braze is purpose-built for ecommerce versus something we'd need to custom-build?"</div>
+          <div class="cq-listen">
+            <span class="cq-listen-label">Listen For</span>
+            <span class="cq-listen-text">Mentions of their six prebuilt ecommerce event schemas, custom event mapping requirements, or references to needing a CDP or data warehouse to support ecommerce use cases — highlighting Braze's horizontal, non-ecommerce-native architecture.</span>
+          </div>
+        </div>
+
+        <div class="cq-item">
+          <div class="cq-question">"Can you walk us through how Braze pricing works across monthly active users, email sends, SMS messages, feature add-ons, and data retention — including what carrier fees look like?"</div>
+          <div class="cq-listen">
+            <span class="cq-listen-label">Listen For</span>
+            <span class="cq-listen-text">Layered pricing components, MAU definitions that differ from active marketing contacts, and confirmation that SMS carrier fees are billed separately on top of message credits. This surfaces true total cost of ownership vs. headline price.</span>
+          </div>
+        </div>
+
+        <div class="cq-item">
+          <div class="cq-question">"What extra costs should we expect beyond the base contract — for example, data retention extensions, segment add-ons, developer overhead, or data export into our Databricks warehouse?"</div>
+          <div class="cq-listen">
+            <span class="cq-listen-label">Listen For</span>
+            <span class="cq-listen-text">Confirmation of tiered retention pricing, separate billing for advanced segmentation, or services costs required for ongoing integration maintenance.</span>
+          </div>
+        </div>
+
+        <div class="cq-item">
+          <div class="cq-question">"Given that email and SMS drive most of our revenue, how does Braze's foundation as a mobile app engagement platform affect its roadmap and investment priorities in ecommerce email and SMS?"</div>
+          <div class="cq-listen">
+            <span class="cq-listen-label">Listen For</span>
+            <span class="cq-listen-text">Acknowledgment that mobile push and in-app messaging are core to the platform's design and roadmap, while email and SMS were added later. This challenges fit for an ecommerce-first brand.</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /panel-braze -->
+
+
+  <!-- ══════════════════════════════════
+       SECTION: vs BLOOMREACH
+  ══════════════════════════════════ -->
+  <div class="section-panel" id="panel-bloomreach">
+
+    <div class="section-intro">
+      <h1><span>Klaviyo</span> vs. Bloomreach</h1>
+      <p>Bloomreach is a rigid multi-channel provider requiring significant developer resources, facing data retention challenges, and incurring hidden costs for data storage. Originally launched as an SEO platform, it acquired Exponea in 2021 — rebranded as Bloomreach Engagement — which remains the acquired Exponea product at its core, layered onto a separate CDP. Its predefined data model, event-based pricing, and implementation complexity make it a better fit for enterprises with strong technical teams than for Shopify-first brands that live on email and SMS.</p>
+    </div>
+
+    <div class="group-label">Platform &amp; Integration</div>
+
+    <!-- Core Email + SMS -->
+    <div class="feature-block" id="bl-email">
+      <div class="feature-label">Core Email + SMS Product</div>
+      <div class="compare-cards">
+        <div class="comp-card klav">
+          <div class="comp-card-header">Klaviyo</div>
+          <div class="comp-card-body">
+            <strong>Purpose-built email and SMS marketing platform.</strong> Pre-built Shopify-native flow templates, deep automation logic, and native channel integration designed specifically for ecommerce revenue growth.
+          </div>
+        </div>
+        <div class="comp-card comp">
+          <div class="comp-card-header">Bloomreach</div>
+          <div class="comp-card-body">
+            Email and SMS are part of a broader digital experience and CDP platform — not the primary focus. Bloomreach Engagement (acquired from Exponea) is a <strong>separate tool layered onto a standalone CDP.</strong> Ecommerce brands report more complexity and setup effort for core email and SMS use cases.
+          </div>
+        </div>
+      </div>
+      <div class="why-strip">
+        <span class="why-label">Why It Matters</span>
+        <span class="why-text">For Swim USA, email and SMS are the primary revenue channels — not secondary capabilities. Core product strength in those two channels is the most critical evaluation criterion.</span>
+      </div>
+    </div>
+
+    <!-- Shopify -->
+    <div class="feature-block" id="bl-shopify">
+      <div class="feature-label">Shopify Integration</div>
+      <div class="compare-cards">
+        <div class="comp-card klav">
+          <div class="comp-card-header">Klaviyo</div>
+          <div class="comp-card-body">
+            <strong>Native bi-directional Shopify sync</strong> — products, orders, customers, and catalog. Native Loop Returns integration. Pre-built Shopify-native templates and flows. Shopify Markets and localization support built in.
+          </div>
+        </div>
+        <div class="comp-card comp">
+          <div class="comp-card-header">Bloomreach</div>
+          <div class="comp-card-body">
+            Shopify support exists but is less purpose-built than Klaviyo's. Ecommerce concepts must be mapped into Bloomreach's predefined data schema. Notably, <strong>Salesforce Commerce Cloud and BigCommerce integrations are in beta with documented limitations</strong> — reflecting ongoing integration maturity gaps.
+          </div>
+        </div>
+      </div>
+      <div class="why-strip">
+        <span class="why-label">Why It Matters</span>
+        <span class="why-text">A platform purpose-built around Shopify's data model reduces implementation risk and accelerates time to value across Swim USA's 5-brand portfolio.</span>
+      </div>
+    </div>
+
+    <!-- Deliverability -->
+    <div class="feature-block" id="bl-delivery">
+      <div class="feature-label">Email Deliverability &amp; Infrastructure</div>
+      <div class="compare-cards">
+        <div class="comp-card klav">
+          <div class="comp-card-header">Klaviyo</div>
+          <div class="comp-card-body">
+            <strong>Multi-provider sending infrastructure</strong> — SparkPost, SendGrid, and Klaviyo's own MTA — with <strong>automatic traffic failover.</strong> Shared IP warming included in onboarding. Redundant delivery paths reduce the risk of large-batch send failures.
+          </div>
+        </div>
+        <div class="comp-card comp">
+          <div class="comp-card-header">Bloomreach</div>
+          <div class="comp-card-body">
+            Relies on a <strong>single primary email delivery provider.</strong> If that provider has issues, all sending is halted with no automatic failover mechanism.
+          </div>
+        </div>
+      </div>
+      <div class="why-strip">
+        <span class="why-label">Why It Matters</span>
+        <span class="why-text">During critical seasonal and peak ecommerce windows, any disruption to email sending has a direct revenue impact. Klaviyo's three-provider architecture with automatic failover uniquely minimizes this risk.</span>
+      </div>
+    </div>
+
+    <div class="group-label">Data &amp; Architecture</div>
+
+    <!-- Autonomy -->
+    <div class="feature-block" id="bl-autonomy">
+      <div class="feature-label">Marketer Autonomy &amp; Self-Serve</div>
+      <div class="compare-cards">
+        <div class="comp-card klav">
+          <div class="comp-card-header">Klaviyo</div>
+          <div class="comp-card-body">
+            Marketers build and iterate advanced automations, segments, and campaigns <strong>independently.</strong> Intuitive UI designed to reduce reliance on technical resources for day-to-day operations.
+          </div>
+        </div>
+        <div class="comp-card comp">
+          <div class="comp-card-header">Bloomreach</div>
+          <div class="comp-card-body">
+            Bloomreach's broader platform and predefined data model <strong>frequently require technical involvement</strong> for setup and ongoing changes. Many customers involve developers for building and updating flows, segments, and campaigns.
+          </div>
+        </div>
+      </div>
+      <div class="why-strip">
+        <span class="why-label">Why It Matters</span>
+        <span class="why-text">High operational control inside the platform is a stated requirement for Swim USA. Developer-gated routine tasks conflict directly with their stated evaluation criteria.</span>
+      </div>
+    </div>
+
+    <!-- Data Retention -->
+    <div class="feature-block" id="bl-retention">
+      <div class="feature-label">Data Retention &amp; Pricing Economics</div>
+      <div class="compare-cards">
+        <div class="comp-card klav">
+          <div class="comp-card-header">Klaviyo</div>
+          <div class="comp-card-body">
+            <strong>Long-term data retention included in the base platform.</strong> No per-event, per-ingestion, or per-storage fees. Historical data available for segmentation, reporting, and AI without arbitrary limits.
+          </div>
+        </div>
+        <div class="comp-card comp">
+          <div class="comp-card-header">Bloomreach</div>
+          <div class="comp-card-body">
+            Pricing tied to <strong>volume, processed events, and storage.</strong> This model incentivizes brands to artificially limit data ingestion and retention to control costs — directly constraining the segmentation and AI use cases that depend on rich data.
+          </div>
+        </div>
+      </div>
+      <div class="why-strip">
+        <span class="why-label">Why It Matters</span>
+        <span class="why-text">Swim USA generates high event volumes across 5 brands and is seasonal. A pricing model that penalizes data ingestion directly conflicts with RFM segmentation, predictive analytics, and multi-year lifecycle marketing goals.</span>
+      </div>
+    </div>
+
+    <!-- Implementation -->
+    <div class="feature-block" id="bl-impl">
+      <div class="feature-label">Implementation Timeline</div>
+      <div class="compare-cards">
+        <div class="comp-card klav">
+          <div class="comp-card-header">Klaviyo</div>
+          <div class="comp-card-body">
+            Implementations <strong>materially shorter</strong> thanks to pre-built Shopify-native integrations, shared IP warming, and no requirement to map events into a complex predefined schema.
+          </div>
+        </div>
+        <div class="comp-card comp">
+          <div class="comp-card-header">Bloomreach</div>
+          <div class="comp-card-body">
+            Longer implementations due to <strong>predefined schema requirements, developer setup needs, and platform complexity.</strong> Time to full value is typically months longer than Klaviyo.
+          </div>
+        </div>
+      </div>
+      <div class="why-strip">
+        <span class="why-label">Why It Matters</span>
+        <span class="why-text">Swim USA's goal is to start migration by early September. A faster, lower-risk implementation path directly de-risks that timeline.</span>
+      </div>
+    </div>
+
+    <div class="group-label">Reporting, AI &amp; Usability</div>
+
+    <!-- Reporting -->
+    <div class="feature-block" id="bl-reporting">
+      <div class="feature-label">Reporting &amp; Analytics</div>
+      <div class="compare-cards">
+        <div class="comp-card klav">
+          <div class="comp-card-header">Klaviyo</div>
+          <div class="comp-card-body">
+            <strong>Pre-built ecommerce analytics dashboards</strong> with attributed revenue, RFM analysis, subscriber growth tracking, peer benchmarking, and customizable reporting — no custom configuration required.
+          </div>
+        </div>
+        <div class="comp-card comp">
+          <div class="comp-card-header">Bloomreach</div>
+          <div class="comp-card-body">
+            Analytics require configuration to be commerce-native. <strong>Not pre-built around ecommerce KPIs</strong> out of the box. There are also limitations on which events can be used for reporting.
+          </div>
+        </div>
+      </div>
+      <div class="why-strip">
+        <span class="why-label">Why It Matters</span>
+        <span class="why-text">Pre-built analytics reduce operational burden and accelerate data-driven decisions — a key success criterion for Michael, the primary platform operator.</span>
+      </div>
+    </div>
+
+    <!-- AI -->
+    <div class="feature-block" id="bl-ai">
+      <div class="feature-label">AI Features</div>
+      <div class="compare-cards">
+        <div class="comp-card klav">
+          <div class="comp-card-header">Klaviyo</div>
+          <div class="comp-card-body">
+            Predictive CLV, churn risk, next order date, RFM scoring — all out of the box. <strong>Segments AI</strong> for natural-language audience creation. MCP server for agentic AI workflows grounded in live customer data.
+          </div>
+        </div>
+        <div class="comp-card comp">
+          <div class="comp-card-header">Bloomreach</div>
+          <div class="comp-card-body">
+            Loomi AI is strong for <strong>onsite search and recommendations,</strong> but requires substantial implementation and data mapping before effective use in day-to-day campaigns. Practical marketing-team use is often delayed.
+          </div>
+        </div>
+      </div>
+      <div class="why-strip">
+        <span class="why-label">Why It Matters</span>
+        <span class="why-text">Klaviyo's AI is immediately usable from day one — grounded in Swim USA's actual profiles, purchase history, and catalog — with no implementation runway required.</span>
+      </div>
+    </div>
+
+    <!-- TCO -->
+    <div class="feature-block" id="bl-tco">
+      <div class="feature-label">Total Cost of Ownership</div>
+      <div class="compare-cards">
+        <div class="comp-card klav">
+          <div class="comp-card-header">Klaviyo</div>
+          <div class="comp-card-body">
+            <strong>Transparent, predictable pricing.</strong> No hidden charges for data retention, event ingestion, or feature tiers. Scales predictably with contact and send volume.
+          </div>
+        </div>
+        <div class="comp-card comp">
+          <div class="comp-card-header">Bloomreach</div>
+          <div class="comp-card-body">
+            Custom, enterprise-only pricing. <strong>Platform fee plus usage fees for email and SMS sends, plus separate charges for monthly processed events and event storage</strong> (data point usage). Developer and technical resources for setup and maintenance are rarely captured in the initial contract.
+          </div>
+        </div>
+      </div>
+      <div class="why-strip">
+        <span class="why-label">Why It Matters</span>
+        <span class="why-text">Volume-based data charges mean costs grow as Swim USA's event volumes scale — directly penalizing the data-rich strategy that drives better segmentation, AI, and lifecycle marketing.</span>
+      </div>
+    </div>
+
+    <div class="group-label">Differentiating Capabilities</div>
+
+    <!-- Composer -->
+    <div class="feature-block" id="bl-composer">
+      <div class="feature-label">Klaviyo Composer — AI Campaign Creation</div>
+      <div class="compare-cards">
+        <div class="comp-card klav">
+          <div class="comp-card-header">Klaviyo</div>
+          <div class="comp-card-body">
+            <strong>Composer</strong> builds complete campaigns and multi-step flows from one natural language prompt. All generated content is grounded in Klaviyo's native ecommerce data model — profiles, purchase history, and catalog — in real time. No pre-mapping or schema configuration required.
+          </div>
+        </div>
+        <div class="comp-card comp">
+          <div class="comp-card-header">Bloomreach</div>
+          <div class="comp-card-body">
+            Loomi AI can generate campaign content from prompts. But personalizations are <strong>constrained by how completely the brand's data has been mapped to Bloomreach's predefined event schema</strong> — which typically requires developer setup before the AI has meaningful data to work with.
+          </div>
+        </div>
+      </div>
+      <div class="why-strip">
+        <span class="why-label">Why It Matters</span>
+        <span class="why-text">For a lean marketing team, AI that produces ready-to-deploy campaigns without upfront data engineering work is a meaningful competitive advantage.</span>
+      </div>
+    </div>
+
+    <!-- Image Remix -->
+    <div class="feature-block" id="bl-remix">
+      <div class="feature-label">AI Image Editing — Image Remix</div>
+      <div class="compare-cards">
+        <div class="comp-card klav">
+          <div class="comp-card-header">Klaviyo</div>
+          <div class="comp-card-body">
+            <strong>Image Remix</strong> (Google Gemini) is embedded directly inside the Klaviyo email editor. Edit existing images inline via text prompt without leaving the campaign builder or switching to an external design tool.
+          </div>
+        </div>
+        <div class="comp-card comp">
+          <div class="comp-card-header">Bloomreach</div>
+          <div class="comp-card-body">
+            Bloomreach's email builder supports <strong>AI-generated copy and subject lines</strong> via Loomi AI. No equivalent inline AI image editing tool native to the email builder. Image editing requires external design tools.
+          </div>
+        </div>
+      </div>
+      <div class="why-strip">
+        <span class="why-label">Why It Matters</span>
+        <span class="why-text">Reducing design iteration time at the template level without switching tools directly accelerates campaign execution across multiple brands.</span>
+      </div>
+    </div>
+
+    <!-- Send Time -->
+    <div class="feature-block" id="bl-sendtime">
+      <div class="feature-label">Personalized Send Time</div>
+      <div class="compare-cards">
+        <div class="comp-card klav">
+          <div class="comp-card-header">Klaviyo</div>
+          <div class="comp-card-body">
+            <strong>Per-profile send time optimization.</strong> Each customer receives the campaign at their individually optimal time within the marketer's defined delivery window — based on their own engagement history. Beta results showed up to a <strong>35% increase in click rates</strong> for top-performing campaigns.
+          </div>
+        </div>
+        <div class="comp-card comp">
+          <div class="comp-card-header">Bloomreach</div>
+          <div class="comp-card-body">
+            Bloomreach offers send time optimization features but does not publicly document <strong>per-profile send time personalization</strong> where each recipient gets a unique delivery time based on their individual history.
+          </div>
+        </div>
+      </div>
+      <div class="why-strip">
+        <span class="why-label">Why It Matters</span>
+        <span class="why-text">For a seasonal email program, per-profile send time optimization directly increases open and click rates at scale without additional segmentation work.</span>
+      </div>
+    </div>
+
+    <!-- Yotpo -->
+    <div class="feature-block" id="bl-yotpo">
+      <div class="feature-label">Loyalty Integration — Yotpo</div>
+      <div class="compare-cards">
+        <div class="comp-card klav">
+          <div class="comp-card-header">Klaviyo</div>
+          <div class="comp-card-body">
+            Native Yotpo integration syncs loyalty points, VIP tier, and referral data into profiles. <strong>Klaviyo Customer Hub</strong> surfaces loyalty balance, tier status, and redemption options within a native branded onsite portal.
+          </div>
+        </div>
+        <div class="comp-card comp">
+          <div class="comp-card-header">Bloomreach</div>
+          <div class="comp-card-body">
+            Native Yotpo Loyalty and Reviews integration exists. However, <strong>Bloomreach does not offer an equivalent native Customer Hub</strong> — a branded onsite portal where customers actively engage with their loyalty program within the same platform.
+          </div>
+        </div>
+      </div>
+      <div class="why-strip">
+        <span class="why-label">Why It Matters</span>
+        <span class="why-text">Klaviyo's Customer Hub connects the inbox, the onsite journey, and the loyalty program in one unified experience — reducing the need for a separate loyalty portal vendor.</span>
+      </div>
+    </div>
+
+    <!-- COMPETITIVE QUESTIONS: BLOOMREACH -->
+    <div class="cq-section" id="bl-cq">
+      <div class="cq-section-header">
+        <h2>Competitive Questions for Bloomreach</h2>
+        <div class="cq-divider"></div>
+      </div>
+      <p class="cq-section-sub">Questions designed to surface gaps relevant to Swim USA's stated priorities. Framed neutrally for any vendor evaluation context.</p>
+      <div class="cq-list">
+
+        <div class="cq-item">
+          <div class="cq-question">"Can you walk us through how Bloomreach pricing works across platform fees, data points and events processed, message sends, and data storage or retention?"</div>
+          <div class="cq-listen">
+            <span class="cq-listen-label">Listen For</span>
+            <span class="cq-listen-text">Confirmation that pricing scales with data ingestion, processed events, or storage — not just sends or contacts. Multiple usage-based variables create cost unpredictability, whereas Klaviyo has no event, ingestion, or storage fees.</span>
+          </div>
+        </div>
+
+        <div class="cq-item">
+          <div class="cq-question">"As our customer and event data grow over time, how does that impact our Bloomreach bill?"</div>
+          <div class="cq-listen">
+            <span class="cq-listen-label">Listen For</span>
+            <span class="cq-listen-text">Mentions of volume tiers, data-point thresholds, overages, or pricing reviews triggered by data scale. In a multi-brand, high-SKU environment, this means higher costs as you become more data-rich.</span>
+          </div>
+        </div>
+
+        <div class="cq-item">
+          <div class="cq-question">"To keep costs manageable, would we ever need to limit the volume of events we ingest or how long we retain detailed data — and what trade-offs does that create for segmentation and AI?"</div>
+          <div class="cq-listen">
+            <span class="cq-listen-label">Listen For</span>
+            <span class="cq-listen-text">Any indication that capping or trimming data is recommended to control costs. That is an admission that the pricing model conflicts with a best-practice, data-rich strategy.</span>
+          </div>
+        </div>
+
+        <div class="cq-item">
+          <div class="cq-question">"If our marketers want to build and update flows, segments, and campaigns themselves, what can they truly own end-to-end without engineering help?"</div>
+          <div class="cq-listen">
+            <span class="cq-listen-label">Listen For</span>
+            <span class="cq-listen-text">Any mention that developers are needed for campaign setup, event or schema changes, integration updates, or segmentation configuration. That confirms a developer-heavy operating model vs. Klaviyo's marketer-owned approach.</span>
+          </div>
+        </div>
+
+        <div class="cq-item">
+          <div class="cq-question">"What does it take to get SMS fully live in Bloomreach — including consent capture, link shortening, and ongoing maintenance — and who needs to be involved?"</div>
+          <div class="cq-listen">
+            <span class="cq-listen-label">Listen For</span>
+            <span class="cq-listen-text">References to technical setup, developer work, or professional services for core SMS basics. Complexity or dev dependency here contrasts sharply with Klaviyo's Shopify-native SMS and marketer-led setup.</span>
+          </div>
+        </div>
+
+        <div class="cq-item">
+          <div class="cq-question">"If email and SMS are our main revenue engines, what specific advantages does Bloomreach give us on those channels versus a platform purpose-built for ecommerce email and SMS?"</div>
+          <div class="cq-listen">
+            <span class="cq-listen-label">Listen For</span>
+            <span class="cq-listen-text">Answers that default to broader platform features — site search, CMS, content management, WhatsApp — rather than concrete, incremental value for email and SMS revenue. That exposes misalignment with the primary use case.</span>
+          </div>
+        </div>
+
+        <div class="cq-item">
+          <div class="cq-question">"For Shopify and our broader ecommerce stack, which integrations are fully GA and deeply supported today — and which are still early or limited in capability?"</div>
+          <div class="cq-listen">
+            <span class="cq-listen-label">Listen For</span>
+            <span class="cq-listen-text">Any indication that Shopify or other ecommerce connectors are newer, limited, or in beta. Salesforce Commerce Cloud and BigCommerce are currently listed as beta integrations with documented limitations.</span>
+          </div>
+        </div>
+
+        <div class="cq-item">
+          <div class="cq-question">"For a commerce brand on Shopify using tools like Loop and Yotpo, how much of the integration and data model is pre-built in Bloomreach versus requiring custom development and schema mapping?"</div>
+          <div class="cq-listen">
+            <span class="cq-listen-label">Listen For</span>
+            <span class="cq-listen-text">Implementation services, schema mapping projects, or custom connector work. This contrasts with Klaviyo's Shopify-native and Loop and Yotpo integrations that minimize engineering effort.</span>
+          </div>
+        </div>
+
+        <div class="cq-item">
+          <div class="cq-question">"What does your email delivery infrastructure look like — are we relying on a single last-mile delivery provider, or do you use multiple providers with automatic failover?"</div>
+          <div class="cq-listen">
+            <span class="cq-listen-label">Listen For</span>
+            <span class="cq-listen-text">Confirmation of a single last-mile provider or limited redundancy. For high-volume seasonal campaigns, that means higher risk from provider outages vs. Klaviyo's three-provider, automatic-failover setup.</span>
+          </div>
+        </div>
+
+        <div class="cq-item">
+          <div class="cq-question">"What are the main reasons you see clients moving off of Bloomreach?"</div>
+          <div class="cq-listen">
+            <span class="cq-listen-label">Listen For</span>
+            <span class="cq-listen-text">Developer dependency, pricing unpredictability, complex implementations, or difficulty scaling email and SMS without heavy services support — all areas where Klaviyo is intentionally simpler and more predictable.</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /panel-bloomreach -->
+
+</div><!-- /content-wrap -->
+
+<script>
+function switchSection(section, btn) {
+  document.querySelectorAll('.sec-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.section-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('catnav-braze').style.display = section === 'braze' ? 'flex' : 'none';
+  document.getElementById('catnav-bloom').style.display = section === 'bloomreach' ? 'flex' : 'none';
+  btn.classList.add('active');
+  document.getElementById('panel-' + section).classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  // Reset pill highlight
+  const nav = section === 'braze' ? 'catnav-braze' : 'catnav-bloom';
+  document.querySelectorAll('#' + nav + ' .cat-pill').forEach((p, i) => {
+    p.classList.toggle('active', i === 0);
+  });
+}
+
+function jumpTo(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// Scroll spy for pills
+const sectionIds = {
+  braze: ['b-shopify','b-sms','b-retention','b-model','b-identity','b-reporting','b-ai','b-ease','b-pricing','b-composer','b-remix','b-yotpo','b-cq'],
+  bloomreach: ['bl-email','bl-shopify','bl-delivery','bl-autonomy','bl-retention','bl-impl','bl-reporting','bl-ai','bl-tco','bl-composer','bl-remix','bl-sendtime','bl-yotpo','bl-cq']
+};
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    const id = entry.target.id;
+    ['braze','bloomreach'].forEach(sec => {
+      const idx = sectionIds[sec].indexOf(id);
+      if (idx === -1) return;
+      const nav = document.getElementById('catnav-' + sec);
+      nav.querySelectorAll('.cat-pill').forEach((p, i) => p.classList.toggle('active', i === idx));
+    });
+  });
+}, { rootMargin: '-160px 0px -50% 0px', threshold: 0 });
+
+[...sectionIds.braze, ...sectionIds.bloomreach].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) observer.observe(el);
+});
+</script>
+</body>
+</html>
